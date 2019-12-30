@@ -379,6 +379,11 @@ void ScrSpecial_HealPlayerParty(void)
     for(i = 0; i < gPlayerPartyCount; i++)
     {
         u16 maxHP = GetMonData(&gPlayerParty[i], MON_DATA_MAX_HP);
+
+        // skip fainted pokémon
+        if(GetMonData(&gPlayerParty[i], MON_DATA_HP) == 0)
+            continue;
+
         arg[0] = maxHP;
         arg[1] = maxHP >> 8;
         SetMonData(&gPlayerParty[i], MON_DATA_HP, arg);

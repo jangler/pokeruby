@@ -36,6 +36,7 @@
 #include "rom_8077ABC.h"
 #include "rom_8094928.h"
 #include "safari_zone.h"
+#include "script_pokemon_80C4.h"
 #include "sound.h"
 #include "sprite.h"
 #include "string_util.h"
@@ -4967,6 +4968,8 @@ void HandleEndTurn_FinishBattle(void)
             }
             PutPokemonTodayCaughtOnAir();
         }
+
+        ScrSpecial_HealPlayerParty();
 
         BeginFastPaletteFade(3);
         FadeOutMapMusic(5);
