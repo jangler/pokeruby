@@ -1721,6 +1721,9 @@ void CalculateMonStats(struct Pokemon *mon)
 
     SetMonData(mon, MON_DATA_LEVEL, &level);
 
+    // calculate all other stats as if pokémon are level 50
+    level = 50;
+
     if (species == SPECIES_SHEDINJA)
     {
         newMaxHP = 1;

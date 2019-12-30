@@ -5360,7 +5360,8 @@ static void atk23_getexp(void)
                     viaExpShare++;
             }
 
-            calculatedExp = gBaseStats[gBattleMons[gBank1].species].expYield * gBattleMons[gBank1].level / 7;
+            // use 50 instead of gBattleMons[gBank1].level
+            calculatedExp = gBaseStats[gBattleMons[gBank1].species].expYield * 50 / 7;
 
             if (viaExpShare) // at least one mon is getting exp via exp share
             {
@@ -11712,7 +11713,7 @@ _0802795C: .4byte gBattlerTarget\n\
 
 static void atk9F_dmgtolevel(void)
 {
-    gBattleMoveDamage = gBattleMons[gBattlerAttacker].level;
+    gBattleMoveDamage = 50; // use 50 instead of gBattleMons[gBattlerAttacker].level
     gBattlescriptCurrInstr++;
 }
 
@@ -11721,7 +11722,7 @@ static void atkA0_psywavedamageeffect(void)
     s32 rand_dmg;
     while ((rand_dmg = (Random() & 0xF)) > 0xA);
     rand_dmg *= 10;
-    gBattleMoveDamage = gBattleMons[gBattlerAttacker].level * (rand_dmg + 50) / 100;
+    gBattleMoveDamage = 50 * (rand_dmg + 50) / 100; // use 50 instead of gBattleMons[gBattlerAttacker].level
     gBattlescriptCurrInstr++;
 }
 
