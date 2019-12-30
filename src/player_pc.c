@@ -154,7 +154,6 @@ static const struct YesNoFuncTable ResumeFromWithdrawYesNoFuncList[] = // Resume
 static const struct ItemSlot gNewGamePCItems[] =
 {
     { ITEM_POTION, 1 },
-    { ITEM_EXP_SHARE, 1 },
     { ITEM_NONE, 0 }
 };
 

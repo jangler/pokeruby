@@ -14,11 +14,13 @@
 #include "random.h"
 #include "battle_controllers.h"
 #include "constants/species.h"
+#include "pokedex.h"
 #include "pokemon.h"
 #include "text.h"
 #include "palette.h"
 #include "main.h"
 #include "constants/songs.h"
+#include "save_menu_util.h"
 #include "sound.h"
 #include "task.h"
 #include "decompress.h"
@@ -143,7 +145,6 @@ void HandleLowHpMusicChange(struct Pokemon*, u8 bank);
 bool8 IsTradedMon(struct Pokemon*);
 void BattleScriptPop(void);
 void SwitchInClearSetData(void);
-u8 GetSetPokedexFlag(u16 nationalNum, u8 caseID);
 u16 SpeciesToNationalPokedexNum(u16 species);
 u8 sub_803FC34(u8 bank);
 u16 sub_803FBFC(u8 a);
@@ -5356,8 +5357,7 @@ static void atk23_getexp(void)
                 else
                     holdEffect = ItemId_GetHoldEffect(item);
 
-                if (holdEffect == HOLD_EFFECT_EXP_SHARE)
-                    viaExpShare++;
+                viaExpShare++;
             }
 
             calculatedExp = gBaseStats[gBattleMons[gBank1].species].expYield * gBattleMons[gBank1].level / 7;
@@ -5388,6 +5388,11 @@ static void atk23_getexp(void)
     case 2: // set exp value to the poke in expgetter_id and print message
         if (gBattleControllerExecFlags == 0)
         {
+            // for custom boost
+            u8 targetLevel = 5 + GetHoennPokedexCount(FLAG_GET_CAUGHT);
+            if (targetLevel > 100)
+                targetLevel = 100;
+
             item = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HELD_ITEM);
 
             if (item == ITEM_ENIGMA_BERRY)
@@ -5395,13 +5400,7 @@ static void atk23_getexp(void)
             else
                 holdEffect = ItemId_GetHoldEffect(item);
 
-            if (holdEffect != HOLD_EFFECT_EXP_SHARE && !(gBattleStruct->sentInPokes & 1))
-            {
-                gBattleStruct->sentInPokes >>= 1;
-                gBattleStruct->getexpStateTracker = 5;
-                gBattleMoveDamage = 0; // used for exp
-            }
-            else if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) == 100)
+            if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) >= targetLevel)
             {
                 gBattleStruct->sentInPokes >>= 1;
                 gBattleStruct->getexpStateTracker = 5;
@@ -5419,13 +5418,16 @@ static void atk23_getexp(void)
 
                 if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP))
                 {
+                    // for custom boost
+                    u16 species;
+                    s32 currentExp, targetExp;
+
                     if (gBattleStruct->sentInPokes & 1)
                         gBattleMoveDamage = *exp;
                     else
                         gBattleMoveDamage = 0;
 
-                    if (holdEffect == HOLD_EFFECT_EXP_SHARE)
-                        gBattleMoveDamage += gExpShareExp;
+                    gBattleMoveDamage += gExpShareExp;
                     if (holdEffect == HOLD_EFFECT_LUCKY_EGG)
                         gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
                     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
@@ -5440,6 +5442,11 @@ static void atk23_getexp(void)
                     {
                         i = 0x149;
                     }
+
+                    species = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPECIES);
+                    targetExp = gExperienceTables[gBaseStats[species].growthRate][targetLevel];
+                    currentExp = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_EXP);
+                    gBattleMoveDamage = targetExp - currentExp;
 
                     // get exp getter bank
                     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
