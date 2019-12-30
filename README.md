@@ -9,6 +9,12 @@ It builds the following roms:
 
 To set up the repository, see [INSTALL.md](INSTALL.md).
 
+## Changes from vanilla
+
+* Running is enabled indoors and before getting shoes.
+* All non-fainted Pokémon are fully healed after each battle.
+* Experience is given to full party, leveling to 5 + (Pokédex owned).
+
 ## See also
 
 * Disassembly of [**Pokémon Red/Blue**][pokered]
