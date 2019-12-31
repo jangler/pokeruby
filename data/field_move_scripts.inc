@@ -46,8 +46,7 @@ Cut_ChoseNo: @ 81B0E3C
 	end
 
 UseCutPromptText: @ 81B0E3F
-	.string "This tree looks like it can be CUT down.\p"
-	.string "Would you like to CUT it?$"
+	.string "Would you like to use CUT?$"
 
 UsedCutRockSmashText: @ 81B0E82
 	.string "{STR_VAR_1} used {STR_VAR_2}.$"
@@ -114,7 +113,6 @@ RockSmash_ChoseNo: @ 81B0F48
 	end
 
 UseRockSmashPromptText: @ 81B0F4B
-	.string "This rock appears to be breakable.\n"
 	.string "Would you like to use ROCK SMASH?$"
 
 CannotUseRockSmashText: @ 81B0F90
@@ -167,8 +165,6 @@ Strength_ChoseNo: @ 81B103A
 	end
 
 UseStrengthPromptText: @ 81B103D
-	.string "It's a big boulder, but a POKéMON\n"
-	.string "may be able to push it aside.\p"
 	.string "Would you like to use STRENGTH?$"
 
 UsedStrengthText: @ 81B109D
@@ -211,7 +207,6 @@ CannotUseWaterfallText: @ 81B119F
 	.string "a mighty roar.$"
 
 UseWaterfallPromptText: @ 81B11D4
-	.string "It's a large waterfall.\n"
 	.string "Would you like to use WATERFALL?$"
 
 UsedWaterfallText: @ 81B120D
@@ -274,7 +269,6 @@ CannotUseDiveText: @ 81B12C0
 	.string "able to go underwater here.$"
 
 UseDivePromptText: @ 81B1303
-	.string "The sea is deep here.\n"
 	.string "Would you like to use DIVE?$"
 
 UsedDiveText: @ 81B1335
@@ -285,7 +279,6 @@ UnderwaterCannotUseDiveText: @ 81B1343
 	.string "A POKéMON may be able to surface here.$"
 
 UnderwaterUseDivePromptText: @ 81B138E
-	.string "Light is filtering down from above.\n"
 	.string "Would you like to use DIVE?$"
 
 SurfacingBlockedText: @ 81B13CE

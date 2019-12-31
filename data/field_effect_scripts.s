@@ -96,7 +96,6 @@ gFieldEffectScript_Ripple: @ 81D9C56
 	end
 
 gFieldEffectScript_FieldMoveShowMon: @ 81D9C60
-	callnative FldEff_FieldMoveShowMon
 	end
 
 gFieldEffectScript_Ash: @ 81D9C66
@@ -310,7 +309,6 @@ gFieldEffectScript_CutGrass: @ 81D9E16
 	end
 
 gFieldEffectScript_FieldMoveShowMonInit: @ 81D9E20
-	callnative FldEff_FieldMoveShowMonInit
 	end
 
 gFieldEffectScript_UseFlyAncientTomb: @ 81D9E26
