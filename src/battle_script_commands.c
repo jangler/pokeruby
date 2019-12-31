@@ -5447,6 +5447,8 @@ static void atk23_getexp(void)
                     targetExp = gExperienceTables[gBaseStats[species].growthRate][targetLevel];
                     currentExp = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_EXP);
                     gBattleMoveDamage = targetExp - currentExp;
+                    if (gBattleMoveDamage > 0x7fff)
+                        gBattleMoveDamage = 0x7fff;
 
                     // get exp getter bank
                     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
