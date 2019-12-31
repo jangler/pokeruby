@@ -714,9 +714,9 @@ static const u8 gItemDescription_MachoBrace[] = _(
     "but reduces SPEED.");
 
 static const u8 gItemDescription_ExpShare[] = _(
-    "Levels to highest\n"
-    "owned or KO'ed {PKMN}.\n"
-    "Reset on whiteout.");
+    "Levels up to match\n"
+    "highest owned or\n"
+    "fainted POKéMON.");
 
 static const u8 gItemDescription_QuickClaw[] = _(
     "A hold item that\n"
