@@ -2249,6 +2249,11 @@ static void atk12_waitmessage(void)
         else
         {
             u16 toWait = T2_READ_16(gBattlescriptCurrInstr + 1);
+
+            // limit delay
+            if (toWait > 20)
+                toWait = 20;
+
             if (++gPauseCounterBattle >= toWait)
             {
                 gPauseCounterBattle = 0;
@@ -6155,6 +6160,11 @@ static void atk39_pause(void)
     if (gBattleControllerExecFlags == 0)
     {
         u16 value = T2_READ_16(gBattlescriptCurrInstr + 1);
+
+        // limit delay
+        if (value > 20)
+            value = 20;
+
         if (++gPauseCounterBattle >= value)
         {
             gPauseCounterBattle = 0;
@@ -6244,8 +6254,7 @@ static void atk45_playanimation(void)
     gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
     argumentPtr = BS2ScriptReadPtr(gBattlescriptCurrInstr + 3);
 
-    if (gBattlescriptCurrInstr[2] == B_ANIM_STATS_CHANGE
-        || gBattlescriptCurrInstr[2] == B_ANIM_SNATCH_MOVE
+    if (gBattlescriptCurrInstr[2] == B_ANIM_SNATCH_MOVE
         || gBattlescriptCurrInstr[2] == B_ANIM_SUBSTITUTE_FADE)
     {
         BtlController_EmitBattleAnimation(0, gBattlescriptCurrInstr[2], *argumentPtr);
@@ -6254,8 +6263,14 @@ static void atk45_playanimation(void)
     }
     else if (gHitMarker & HITMARKER_NO_ANIMATIONS)
     {
-        BattleScriptPush(gBattlescriptCurrInstr + 7);
-        gBattlescriptCurrInstr = BattleScript_Pausex20;
+        // a pause for stat change is redundant
+        if (gBattlescriptCurrInstr[2] == B_ANIM_STATS_CHANGE)
+            gBattlescriptCurrInstr += 7;
+        else
+        {
+            BattleScriptPush(gBattlescriptCurrInstr + 7);
+            gBattlescriptCurrInstr = BattleScript_Pausex20;
+        }
     }
     else if (gBattlescriptCurrInstr[2] == B_ANIM_RAIN_CONTINUES
              || gBattlescriptCurrInstr[2] == B_ANIM_SUN_CONTINUES

@@ -1582,6 +1582,10 @@ static void WaitAnimFrameCount(void)
         gAnimScriptCallback = RunAnimScriptCommand;
         gAnimFramesToWait = 0;
     }
+    else if (gAnimFramesToWait > 20)
+    {
+        gAnimFramesToWait = 20;
+    }
     else
     {
         gAnimFramesToWait--;
@@ -1765,7 +1769,7 @@ static void ScriptCmd_end(void)
     // finish the sound effects.
     if (IsSEPlaying())
     {
-        if (++gSoundAnimFramesToWait <= 90) // wait 90 frames, then halt the sound effect.
+        if (++gSoundAnimFramesToWait <= 20) // wait 20 frames, then halt the sound effect.
         {
             gAnimFramesToWait = 1;
             return;
@@ -3035,7 +3039,7 @@ static void ScriptCmd_waitsound(void)
     }
     else if (IsSEPlaying())
     {
-        if (++gSoundAnimFramesToWait > 90)
+        if (++gSoundAnimFramesToWait > 20)
         {
             m4aMPlayStop(&gMPlayInfo_SE1);
             m4aMPlayStop(&gMPlayInfo_SE2);
