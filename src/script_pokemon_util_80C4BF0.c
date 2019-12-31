@@ -414,6 +414,9 @@ u8 ScriptGiveMon(u16 species, u8 level, u16 item, u32 unused1, u32 unused2, u8 u
     sentToPc = GiveMonToPlayer(&mon);
     nationalDexNum = SpeciesToNationalPokedexNum(species);
 
+    if (level > gSaveBlock1.padding_2736[0])
+        gSaveBlock1.padding_2736[0] = level;
+
     switch(sentToPc)
     {
     case 0:

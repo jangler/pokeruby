@@ -4971,6 +4971,16 @@ void HandleEndTurn_FinishBattle(void)
 
         ScrSpecial_HealPlayerParty();
 
+        // update level cap
+        if (gBattleOutcome == B_OUTCOME_WON || gBattleOutcome == B_OUTCOME_CAUGHT) {
+            u8 i, level;
+            for (i = 0; i < 6; i++) {
+                level = GetMonData(&gEnemyParty[i], MON_DATA_LEVEL);
+                if (level > gSaveBlock1.padding_2736[0])
+                    gSaveBlock1.padding_2736[0] = level;
+            }
+        }
+
         BeginFastPaletteFade(3);
         FadeOutMapMusic(5);
         gBattleMainFunc = FreeResetData_ReturnToOvOrDoEvolutions;

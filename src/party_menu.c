@@ -4626,17 +4626,22 @@ const u8 gUnknown_Debug_839B6D8[] = _(
 
 void DoRareCandyItemEffect(u8 taskId, u16 item, TaskFunc c)
 {
-    u8 i;
+    u8 i, targetLevel;
     bool8 noEffect;
 
     gTasks[taskId].func = TaskDummy;
-    sub_806E8D0(taskId, item, c);
+    sub_806E8D0(taskId, ITEM_RARE_CANDY, c);
 
-    if (GetMonData(ewram1C000.pokemon, MON_DATA_LEVEL) != 100)
+    if (item == ITEM_RARE_CANDY)
+        targetLevel = 100;
+    else
+        targetLevel = gSaveBlock1.padding_2736[0];
+
+    if (GetMonData(ewram1C000.pokemon, MON_DATA_LEVEL) < targetLevel)
     {
         for (i = 0; i < NUM_STATS; i++)
             ewram1B000.statGrowths[i] = GetMonData(ewram1C000.pokemon, StatDataTypes[i]);
-        noEffect = ExecuteTableBasedItemEffect__(ewram1C000.primarySelectedMonIndex, item, 0);
+        noEffect = ExecuteTableBasedItemEffect__(ewram1C000.primarySelectedMonIndex, ITEM_RARE_CANDY, 0);
     }
     else
         noEffect = TRUE;
@@ -4655,13 +4660,18 @@ void DoRareCandyItemEffect(u8 taskId, u16 item, TaskFunc c)
         gUnknown_0202E8F4 = 1;
         PlayFanfareByFanfareNum(0);
         RedrawPokemonInfoInMenu(ewram1C000.primarySelectedMonIndex, ewram1C000.pokemon);
-        RemoveBagItem(item, 1);
+        if (item == ITEM_RARE_CANDY)
+            RemoveBagItem(item, 1);
         GetMonNickname(ewram1C000.pokemon, gStringVar1);
         level = GetMonData(ewram1C000.pokemon, MON_DATA_LEVEL);
         ConvertIntToDecimalStringN(gStringVar2, level, 0, 3);
         StringExpandPlaceholders(gStringVar4, gOtherText_ElevatedTo);
         sub_806E834(gStringVar4, 1);
         CreateTask(Task_RareCandy1, 5);
+
+        // update level cap
+        if (level > gSaveBlock1.padding_2736[0])
+            gSaveBlock1.padding_2736[0] = level;
     }
 }
 

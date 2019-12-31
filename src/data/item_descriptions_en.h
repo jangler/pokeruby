@@ -714,9 +714,9 @@ static const u8 gItemDescription_MachoBrace[] = _(
     "but reduces SPEED.");
 
 static const u8 gItemDescription_ExpShare[] = _(
-    "A hold item that\n"
-    "gets EXP. points\n"
-    "from battles.");
+    "Levels to highest\n"
+    "owned or KO'ed {PKMN}.\n"
+    "Reset on whiteout.");
 
 static const u8 gItemDescription_QuickClaw[] = _(
     "A hold item that\n"
