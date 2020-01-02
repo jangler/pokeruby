@@ -168,9 +168,7 @@ UseStrengthPromptText: @ 81B103D
 	.string "Would you like to use STRENGTH?$"
 
 UsedStrengthText: @ 81B109D
-	.string "{STR_VAR_1} used STRENGTH.\p"
-	.string "{STR_VAR_1}'s STRENGTH made it possible\n"
-	.string "to move boulders around.$"
+	.string "{STR_VAR_1} used STRENGTH.$"
 
 CannotUseStrengthText: @ 81B10E7
 	.string "It's a big boulder, but a POKéMON\n"
