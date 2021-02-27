@@ -209,7 +209,7 @@ static u16 TakeSelectedPokemonFromDaycare(struct DayCare * daycare, u8 slot)
 
     if (GetMonData(&pokemon, MON_DATA_LEVEL) != MAX_LEVEL)
     {
-        experience = GetMonData(&pokemon, MON_DATA_EXP) + daycare->misc.countersEtc.steps[slot];
+        experience = GetMonData(&pokemon, MON_DATA_EXP);
         SetMonData(&pokemon, MON_DATA_EXP, &experience);
         ApplyDaycareExperience(&pokemon);
     }
@@ -238,7 +238,7 @@ static u8 GetLevelAfterDaycareSteps(struct BoxPokemon * mon, u32 steps)
 {
     struct BoxPokemon tempMon = *mon;
 
-    u32 experience = GetBoxMonData(mon, MON_DATA_EXP) + steps;
+    u32 experience = GetBoxMonData(mon, MON_DATA_EXP);
     SetBoxMonData(&tempMon, MON_DATA_EXP,  &experience);
     return GetLevelFromBoxMonExp(&tempMon);
 }
