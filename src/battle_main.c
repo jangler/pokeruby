@@ -4381,8 +4381,9 @@ void sub_8012324(void)
                              && !(gBattleTypeFlags & (BATTLE_TYPE_LINK))
                              && gBattleBufferB[gActiveBattler][1] == B_ACTION_RUN)
                     {
-                        BattleScriptExecute(BattleScript_PrintCantRunFromTrainer);
-                        gBattleCommunication[gActiveBattler] = STATE_BEFORE_ACTION_CHOSEN;
+                        gBattleOutcome |= B_OUTCOME_LOST;
+                        gBattleCommunication[gActiveBattler] = STATE_WAIT_ACTION_CONFIRMED_STANDBY;
+                        return;
                     }
                     else if (CanRunFromBattle()
                              && gBattleBufferB[gActiveBattler][1] == B_ACTION_RUN)
