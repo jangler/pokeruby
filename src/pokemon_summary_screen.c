@@ -1029,9 +1029,9 @@ static void SummaryScreen_CycleMove(u8 taskId, s8 offset)
 {
     u8 moveIndex = pssData.selectedMoveIndex;
     u16 move1, move2, species;
-    s32 i;
-    s32 foundIndex = -1;
+    s32 i, moveCount;
     u8 move2pp;
+    u16 movePool[32];
 
     // get mon data
     if (pssData.usingPC == TRUE)
@@ -1049,28 +1049,36 @@ static void SummaryScreen_CycleMove(u8 taskId, s8 offset)
         species = GetMonData(pkmn, MON_DATA_SPECIES, NULL);
     }
 
-    // search for move in learnset
+    // add learnset and egg moves to pool
     for (i = 0; gLevelUpLearnsets[species][i] != (u16)-1; i++)
     {
-        move2 = gLevelUpLearnsets[species][i] & 0x1FF;
+        movePool[moveCount] = gLevelUpLearnsets[species][i] & 0x1FF;
+        moveCount++;
+    }
+    moveCount += GetEggMoves(species, movePool + moveCount);
+
+    // saearch for move in pool
+    for (i = 0; i < moveCount; i++)
+    {
+        move2 = movePool[i];
         if (move2 == move1)
-            foundIndex = i;
+            break;
     }
 
     // move not found, do not replace
-    if (foundIndex == -1)
+    if (i == moveCount)
     {
         PlaySE(SE_FAILURE);
         return;
     }
 
     // add offset to get new move
-    foundIndex += offset;
-    if (foundIndex < 0)
-        foundIndex += i;
-    else if (foundIndex >= i)
-        foundIndex -= i;
-    move2 = gLevelUpLearnsets[species][foundIndex] & 0x1FF;
+    i += offset;
+    if (i < 0)
+        i += moveCount;
+    else if (i >= moveCount)
+        i -= moveCount;
+    move2 = movePool[i];
     move2pp = gBattleMoves[move2].pp;
 
     // set mon data

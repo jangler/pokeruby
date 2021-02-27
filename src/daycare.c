@@ -468,16 +468,14 @@ static void InheritIVs(struct Pokemon *egg, struct DayCare *daycare)
 
 // Counts the number of egg moves a pokemon learns and stores the moves in
 // the given array.
-static u8 GetEggMoves(struct Pokemon *pokemon, u16 *eggMoves)
+u8 GetEggMoves(u16 species, u16 *eggMoves)
 {
     u16 eggMoveIdx;
     u16 numEggMoves;
-    u16 species;
     u16 i;
 
     numEggMoves = 0;
     eggMoveIdx = 0;
-    species = GetMonData(pokemon, MON_DATA_SPECIES);
     for (i = 0; i < ARRAY_COUNT(gEggMoves) - 1; i++)
     {
         if (gEggMoves[i] == species + EGG_MOVES_SPECIES_OFFSET)
@@ -528,7 +526,7 @@ void BuildEggMoveset(struct Pokemon *egg, struct BoxPokemon *father, struct BoxP
         gHatchedEggMotherMoves[i] = GetBoxMonData(mother, MON_DATA_MOVE1 + i);
     }
 
-    numEggMoves = GetEggMoves(egg, gHatchedEggEggMoves);
+    numEggMoves = GetEggMoves(GetMonData(egg, MON_DATA_SPECIES), gHatchedEggEggMoves);
 
     for (i = 0; i < 4; i++)
     {

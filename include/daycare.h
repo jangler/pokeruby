@@ -15,5 +15,6 @@ void CreateEgg(struct Pokemon *mon, u16, u8);
 u8 ShouldEggHatch(void);
 u8 GetDaycareCompatibilityScoreFromSave(void);
 bool8 NameHasGenderSymbol(const u8 *, u8);
+u8 GetEggMoves(u16, u16 *);
 
 #endif // GUARD_DAYCARE_H
