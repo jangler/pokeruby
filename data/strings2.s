@@ -26,7 +26,7 @@ gSystemText_TextSpeed:: @ 842C3B0
 	.string "{PALETTE 9}TEXT SPEED$"
 
 gSystemText_BattleScene:: @ 842C3BE
-	.string "{PALETTE 9}BATTLE SCENE$"
+	.string "{PALETTE 9}WILD BATTLES$"
 
 gSystemText_BattleStyle:: @ 842C3CE
 	.string "{PALETTE 9}BATTLE STYLE$"

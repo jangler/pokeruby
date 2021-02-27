@@ -3438,7 +3438,7 @@ void sub_8010874(void)
     MEMSET_ALT(&gWishFutureKnock, 0, 0x2C, i, r4);
 
     gHitMarker = 0;
-    if ((gBattleTypeFlags & BATTLE_TYPE_LINK) == 0 && gSaveBlock2.optionsBattleSceneOff == TRUE)
+    if ((gBattleTypeFlags & BATTLE_TYPE_LINK) == 0)
         gHitMarker = HITMARKER_NO_ANIMATIONS;
     ewram16084 = gSaveBlock2.optionsBattleStyle;
     gMultiHitCounter = 0;

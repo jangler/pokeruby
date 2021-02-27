@@ -684,6 +684,9 @@ static bool8 IsWildLevelAllowedByRepel(u8 wildLevel)
 {
     u8 i;
 
+    if (gSaveBlock2.optionsBattleSceneOff == TRUE)
+        return FALSE;
+
     if (!VarGet(VAR_REPEL_STEP_COUNT))
     {
         return TRUE;
