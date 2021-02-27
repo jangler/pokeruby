@@ -5167,6 +5167,16 @@ void RunBattleScriptCommands(void)
         gBattleScriptingCommandsTable[gBattlescriptCurrInstr[0]]();
 }
 
+static bool8 MoveTypeIsSuperEffective(u16 move, u8 attacker, u8 defender)
+{
+    u8 moveType = gBattleMoves[move].type;
+
+    // get a damaging move of the same type (calc doesn't work otherwise)
+    for (move = 0; gBattleMoves[move].type != moveType || gBattleMoves[move].power == 0; move++);
+
+    return TypeCalc(move, attacker, defender) & MOVE_RESULT_SUPER_EFFECTIVE;
+}
+
 void HandleAction_UseMove(void)
 {
     u8 side;
@@ -5351,7 +5361,7 @@ void HandleAction_UseMove(void)
 
     // player attacks must be super effective to hit
     if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER &&
-        !(TypeCalc(gCurrentMove, gBattlerAttacker, gBattlerTarget) & MOVE_RESULT_SUPER_EFFECTIVE))
+        !MoveTypeIsSuperEffective(gCurrentMove, gBattlerAttacker, gBattlerTarget))
         gMoveResultFlags |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
 
     gBattlescriptCurrInstr = gBattleScriptsForMoveEffects[gBattleMoves[gCurrentMove].effect];
