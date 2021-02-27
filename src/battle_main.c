@@ -47,6 +47,7 @@
 #include "scanline_effect.h"
 #include "util.h"
 #include "ewram.h"
+#include "script_pokemon_80C4.h"
 
 struct UnknownStruct7
 {
@@ -5061,6 +5062,8 @@ void HandleEndTurn_FinishBattle(void)
         if (gBattleControllerExecFlags == 0)
             gBattleScriptingCommandsTable[gBattlescriptCurrInstr[0]]();
     }
+
+    ScrSpecial_HealPlayerParty();
 }
 
 static void FreeResetData_ReturnToOvOrDoEvolutions(void)
