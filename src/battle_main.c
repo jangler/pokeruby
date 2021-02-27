@@ -5345,6 +5345,11 @@ void HandleAction_UseMove(void)
         }
     }
 
+    // player attacks must be super effective to hit
+    if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER &&
+        !(TypeCalc(gCurrentMove, gBattlerAttacker, gBattlerTarget) & MOVE_RESULT_SUPER_EFFECTIVE))
+        gMoveResultFlags |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
+
     gBattlescriptCurrInstr = gBattleScriptsForMoveEffects[gBattleMoves[gCurrentMove].effect];
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
 }
