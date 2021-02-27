@@ -1022,6 +1022,79 @@ static void sub_809E260(u8 taskId)
     }
 }
 
+static void sub_809E7F0(u8);
+
+// cycles through moves in the pokémon's moveset
+static void SummaryScreen_CycleMove(u8 taskId, s8 offset)
+{
+    u8 moveIndex = pssData.selectedMoveIndex;
+    u16 move1, move2, species;
+    s32 i;
+    s32 foundIndex = -1;
+    u8 move2pp;
+
+    // get mon data
+    if (pssData.usingPC == TRUE)
+    {
+        struct BoxPokemon *boxMons = pssData.monList.boxMons;
+        struct BoxPokemon *pkmn = &boxMons[pssData.monIndex];
+        move1 = GetBoxMonData(pkmn, MON_DATA_MOVE1 + moveIndex);
+        species = GetBoxMonData(pkmn, MON_DATA_SPECIES, NULL);
+    }
+    else
+    {
+        struct Pokemon *party = pssData.monList.partyMons;
+        struct Pokemon *pkmn = &party[pssData.monIndex];
+        move1 = GetMonData(pkmn, MON_DATA_MOVE1 + moveIndex);
+        species = GetMonData(pkmn, MON_DATA_SPECIES, NULL);
+    }
+
+    // search for move in learnset
+    for (i = 0; gLevelUpLearnsets[species][i] != (u16)-1; i++)
+    {
+        move2 = gLevelUpLearnsets[species][i] & 0x1FF;
+        if (move2 == move1)
+            foundIndex = i;
+    }
+
+    // move not found, do not replace
+    if (foundIndex == -1)
+    {
+        PlaySE(SE_FAILURE);
+        return;
+    }
+
+    // add offset to get new move
+    foundIndex += offset;
+    if (foundIndex < 0)
+        foundIndex += i;
+    else if (foundIndex >= i)
+        foundIndex -= i;
+    move2 = gLevelUpLearnsets[species][foundIndex] & 0x1FF;
+    move2pp = gBattleMoves[move2].pp;
+
+    // set mon data
+    if (pssData.usingPC == TRUE)
+    {
+        struct BoxPokemon *boxMons = pssData.monList.boxMons;
+        struct BoxPokemon *pkmn = &boxMons[pssData.monIndex];
+        SetBoxMonData(pkmn, MON_DATA_MOVE1 + moveIndex, &move2);
+        SetBoxMonData(pkmn, MON_DATA_PP1 + moveIndex, &move2pp);
+    }
+    else
+    {
+        struct Pokemon *party = pssData.monList.partyMons;
+        struct Pokemon *pkmn = &party[pssData.monIndex];
+        SetMonData(pkmn, MON_DATA_MOVE1 + moveIndex, &move2);
+        SetMonData(pkmn, MON_DATA_PP1 + moveIndex, &move2pp);
+    }
+
+    // reload gfx
+    SummaryScreen_GetPokemon(&pssData.loadedMon);
+    pssData.loadGfxState = 1;
+    gTasks[taskId].func = sub_809E7F0; // not sure if this is "correct"
+}
+
 static void SummaryScreen_MoveSelect_HandleInput(u8 taskId)
 {
     if (gPaletteFade.active)
@@ -1066,6 +1139,14 @@ static void SummaryScreen_MoveSelect_HandleInput(u8 taskId)
     {
         PlaySE(SE_SELECT);
         SummaryScreen_MoveSelect_Cancel(taskId);
+    }
+    else if (gMain.newKeys & DPAD_LEFT)
+    {
+        SummaryScreen_CycleMove(taskId, -1);
+    }
+    else if (gMain.newKeys & DPAD_RIGHT)
+    {
+        SummaryScreen_CycleMove(taskId, 1);
     }
 
 }
