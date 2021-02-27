@@ -2718,7 +2718,7 @@ void PlayerHandleExpBarUpdate(void)
 {
     u8 r7 = gBattleBufferA[gActiveBattler][1];
 
-    if (GetMonData(&gPlayerParty[r7], MON_DATA_LEVEL) >= 100)
+    if (TRUE)
     {
         PlayerBufferExecCompleted();
     }
