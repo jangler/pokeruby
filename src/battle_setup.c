@@ -873,7 +873,9 @@ static void CB2_GiveStarter(void)
 
     *GetVarPointer(VAR_STARTER_MON) = gSpecialVar_Result;
     starterPoke = GetStarterPokemon(gSpecialVar_Result);
-    ScriptGiveMon(starterPoke, 5, ITEM_NONE, 0, 0, 0);
+    ScriptGiveMon(SPECIES_TREECKO, 5, ITEM_NONE, 0, 0, 0);
+    ScriptGiveMon(SPECIES_TORCHIC, 5, ITEM_NONE, 0, 0, 0);
+    ScriptGiveMon(SPECIES_MUDKIP, 5, ITEM_NONE, 0, 0, 0);
     ResetTasks();
     sub_80408BC();
     SetMainCallback2(CB2_StartFirstBattle);
