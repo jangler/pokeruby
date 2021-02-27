@@ -224,8 +224,10 @@ Route101_EventScript_14EA7F:: @ 814EA7F
 	setobjectxy OBJ_EVENT_ID_PLAYER, 6, 13
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestLeft
 	waitmovement 0
-	special ScrSpecial_ChooseStarter
-	waitstate
+	givemon SPECIES_TREECKO, 5, ITEM_NONE
+	givemon SPECIES_TORCHIC, 5, ITEM_NONE
+	givemon SPECIES_MUDKIP, 5, ITEM_NONE
+	fadescreen FADE_FROM_BLACK
 	applymovement 2, Route101_Movement_14EAD7
 	waitmovement 0
 	msgbox Route101_Text_16D191, MSGBOX_DEFAULT
